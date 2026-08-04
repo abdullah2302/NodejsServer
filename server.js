@@ -46,7 +46,11 @@ const server = http.createServer((req, res) => {
 
             const newEntry = {
                 name: formData.name,
-                email: formData.email
+                email: formData.email,
+                age: formData.age,
+                gender: formData.gender,
+                country: formData.country,
+                city: formData.city
             };
 
             let jsonArray = [];
@@ -75,7 +79,7 @@ const server = http.createServer((req, res) => {
             jsonArray.push(newEntry);
 
 
-            fs.writeFileSync("data.json", JSON.stringify(jsonArray, null, 2));
+            fs.writeFileSync("data.json", JSON.stringify(jsonArray, null, 6));
 
             res.writeHead(200, {
                 "Content-Type": "text/html"
@@ -189,6 +193,10 @@ const server = http.createServer((req, res) => {
             const formData = querystring.parse(body);
             const targetEmail = formData.email;
             const newName = formData.name;
+            const newAge = formData.age;
+            const newGender = formData.gender;
+            const newCountry = formData.country;
+            const newCity = formData.city;
 
             let jsonArray = [];
 

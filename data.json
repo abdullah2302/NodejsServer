@@ -1,6 +1,10 @@
 [
-  {
-    "name": "Sulieman ",
-    "email": "mohammadazhar@gmail.com"
-  }
+      {
+            "name": "Abdullah'org",
+            "email": "abdullahrajpoot8776@gmail.com",
+            "age": "24",
+            "gender": "male",
+            "country": "Pakistan",
+            "city": "Lahore"
+      }
 ]
