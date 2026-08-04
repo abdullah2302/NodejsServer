@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>User Database</title>
+</head>
+<body>
+
+    
+    <div class="nav-container">
+        <a id="aboutLink" href="/about">About</a>
+        <a id="deleteLink" href="/delete">Go to Delete Page</a>
+        <a id="editLink" href="/edit">Go to Edit Page</a>
+    </div>
+  
+    
+    <form action="/datasend" method="POST">
+        <h3>Add User Record</h3>
+        
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required placeholder="John Doe">
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required placeholder="john@example.com">
+        
+        <button type="submit">Submit Data</button>
+    </form>
+
+   
+    <button id="fetchDataBtn" onclick="fetchData()">Fetch Data</button>
+   
+   
+    <pre id="result"></pre>
+
+    <script src="/script.js"></script>
+</body>
+</html>

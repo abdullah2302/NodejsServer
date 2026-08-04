@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Delete User</title>
+</head>
+<body>
+    <div class="nav-container">
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+
+    <div class="delete-container">
+        <h3>Delete a User Record</h3>
+        <form action="/delete-item" method="POST">
+            <label for="deleteEmail">Enter Email to Delete:</label>
+            <input type="email" id="deleteEmail" name="email" required placeholder="john@example.com">
+            <button type="submit" class="btn-delete">Delete User</button>
+        </form>
+    </div>
+</body>
+</html>
