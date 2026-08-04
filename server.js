@@ -289,6 +289,18 @@ const server = http.createServer((req, res) => {
             res.end(data);
         });
     }
+    else if(req.method === "GET" && req.url === "/favicon.ico") {
+        fs.readFile("favicon-96x96.png", (err, data) => {
+            if (err) {
+                res.writeHead(404);
+                return res.end("Favicon not found");
+            }
+            res.writeHead(200, {
+                "Content-Type": "image/png"
+            });
+            res.end(data);
+        });
+    }
     else {
         res.writeHead(404);
         res.end("Page Not Found");
