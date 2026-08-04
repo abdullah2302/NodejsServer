@@ -1,0 +1,21 @@
+{
+  "name": "fs_module",
+  "version": "1.0.0",
+  "description": "node server without any framework",
+  "homepage": "https://github.com/abdullah2302/NodejsServer#readme",
+  "bugs": {
+    "url": "https://github.com/abdullah2302/NodejsServer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdullah2302/NodejsServer.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  }
+}
