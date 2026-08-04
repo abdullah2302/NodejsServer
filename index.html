@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon-96x96.png" type="image/x-icon">
     <title>User Database</title>
 </head>
+
 <body>
 
-    
+
     <div class="nav-container">
         <a id="aboutLink" href="/about">About</a>
         <a id="deleteLink" href="/delete">Go to Delete Page</a>
         <a id="editLink" href="/edit">Go to Edit Page</a>
     </div>
-  
-    
+
+
     <form action="/datasend" method="POST">
         <h3>Add User Record</h3>
-        
+
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required placeholder="John Doe">
-        
+
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required placeholder="john@example.com">
         <label for="age">Age:</label>
@@ -31,22 +34,23 @@
             <option value="">Select Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
-            <option value="other">Other</option>    
+            <option value="other">Other</option>
         </select>
         <label for="country">Country:</label>
         <input type="text" id="country" name="country" required placeholder="USA">
         <label for="city">City:</label>
         <input type="text" id="city" name="city" required placeholder="New York">
-        
+
         <button type="submit">Submit Data</button>
     </form>
 
-   
+
     <button id="fetchDataBtn" onclick="fetchData()">Fetch Data</button>
-   
-   
+
+
     <pre id="result" style="display: none;"></pre>
 
     <script src="/script.js"></script>
 </body>
+
 </html>

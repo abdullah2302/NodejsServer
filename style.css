@@ -1,30 +1,21 @@
-/* =========================================================
-   User Database — shared stylesheet
-   Look & feel: a plain-spoken record-keeping tool, styled
-   like a well-kept ledger/schema sheet rather than a
-   marketing page. Monospace for structure & labels,
-   a humane sans for body copy, one deep teal accent,
-   one muted brick accent reserved for destructive action.
-   ========================================================= */
-
 :root {
-  --bg: #f6f4ee;
-  --surface: #ffffff;
-  --ink: #1c1f26;
-  --muted: #6b7280;
-  --border: #e2ddd0;
+  --bg: #14171c;
+  --surface: #1c2026;
+  --ink: #e7e4db;
+  --muted: #9199a3;
+  --border: #30353d;
 
-  --accent: #2e6f5e;
-  --accent-dark: #1f4d40;
-  --accent-soft: #e4efec;
+  --accent: #45a690;
+  --accent-dark: #2e6f5e;
+  --accent-soft: #16302a;
 
-  --danger: #a3352b;
-  --danger-dark: #822a22;
-  --danger-soft: #f5e8e6;
+  --danger: #cf6b5f;
+  --danger-dark: #a3352b;
+  --danger-soft: #2c1613;
 
  
   --radius: 6px;
-  --shadow: 0 1px 2px rgba(28, 31, 38, 0.06), 0 1px 1px rgba(28, 31, 38, 0.04);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(0, 0, 0, 0.35);
 }
 
 * {
@@ -37,11 +28,11 @@ body {
   background: var(--bg);
   color: var(--ink);
  
-  font-size: 15px;
+  font-size: 20px;
   line-height: 1.55;
 }
 
-/* ---------- Navigation ---------- */
+/* Navigation */
 
 .nav-container {
   display: flex;
@@ -59,7 +50,7 @@ body {
   flex: 1;
   text-align: center;
   padding: 0.75rem 1rem;
-  font-family: var(--mono);
+ 
   font-size: 0.8rem;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -101,10 +92,37 @@ form,
   box-shadow: var(--shadow);
   padding: 1.75rem 1.75rem 2rem;
 }
+select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+#age,#editAge {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
 
 h1, h3 {
   margin: 0 0 1.25rem;
-  font-family: var(--mono);
+ 
   font-weight: 600;
   letter-spacing: -0.01em;
 }
@@ -132,7 +150,7 @@ h3 {
 
 .about-container a#homeLink {
   display: inline-block;
-  font-family: var(--mono);
+
   font-size: 0.85rem;
   color: var(--accent);
   text-decoration: none;
@@ -143,11 +161,11 @@ h3 {
   border-bottom-color: var(--accent);
 }
 
-/* ---------- Form fields ---------- */
+/*  Form fields  */
 
 label {
   display: block;
-  font-family: var(--mono);
+ 
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -163,7 +181,7 @@ input[type="text"],
 input[type="email"] {
   width: 100%;
   padding: 0.6rem 0.75rem;
-  font-family: var(--sans);
+
   font-size: 0.9rem;
   color: var(--ink);
   background: var(--bg);
@@ -182,10 +200,10 @@ input[type="email"]:focus-visible {
 }
 
 input::placeholder {
-  color: #b7b2a4;
+  color: #6b7078;
 }
 
-/* ---------- Buttons ---------- */
+/*  Buttons  */
 
 button,
 .btn-delete,
@@ -194,7 +212,7 @@ button,
   width: 100%;
   margin-top: 1.5rem;
   padding: 0.7rem 1rem;
-  font-family: var(--mono);
+ 
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -224,7 +242,7 @@ button:active,
   background: var(--danger-dark);
 }
 
-/* Secondary "fetch" action on the index page */
+/* fetch buttn */
 #fetchDataBtn {
   max-width: 480px;
   margin: 0 auto 1.5rem;
@@ -239,16 +257,16 @@ button:active,
   background: var(--accent-soft);
 }
 
-/* ---------- Result output ---------- */
+/*Result output */
 
 #result {
   display: block;
   max-width: 480px;
   margin: 0 auto;
   padding: 1rem 1.25rem;
-  background: var(--ink);
+  background: #0b0d10;
   color: #e7f3ef;
-  font-family: var(--mono);
+
   font-size: 0.8rem;
   line-height: 1.6;
   border-radius: var(--radius);
@@ -257,7 +275,7 @@ button:active,
   box-shadow: var(--shadow);
 }
 
-/* ---------- Focus & responsiveness ---------- */
+/*  Focus & responsiveness  */
 
 a:focus-visible,
 button:focus-visible {
@@ -277,11 +295,5 @@ button:focus-visible {
   .nav-container a {
     flex: 1 1 50%;
     border-bottom: 1px solid var(--border);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
   }
 }
