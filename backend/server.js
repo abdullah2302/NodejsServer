@@ -7,12 +7,14 @@ const os = require("os");
 
 const logFilePath = path.join(__dirname, "log.log");
 
+const frontendPath = path.join(__dirname, "..", "frontend");
+
 const server = http.createServer((req, res) => {
 
 
     if (req.method === "GET" && req.url === "/") {
 
-        fs.readFile("index.html", (err, data) => {
+        fs.readFile(path.join(frontendPath, "index.html"), (err, data) => {
             if (err) {
                 res.writeHead(500);
                 return res.end("Error loading page");
@@ -110,7 +112,7 @@ const server = http.createServer((req, res) => {
 
 
     else if (req.method === "GET" && req.url === "/delete") {
-        fs.readFile("delete.html", (err, data) => {
+        fs.readFile(path.join(frontendPath, "delete.html"), (err, data) => {
             if (err) {
                 res.writeHead(500);
                 return res.end("Error loading delete page");
@@ -167,7 +169,7 @@ const server = http.createServer((req, res) => {
     }
 
     else if (req.method === "GET" && req.url === "/edit") {
-        fs.readFile("edit.html", (err, data) => {
+        fs.readFile(path.join(frontendPath, "edit.html"), (err, data) => {
             if (err) {
                 res.writeHead(500);
                 return res.end("Error loading edit page");
@@ -232,7 +234,7 @@ const server = http.createServer((req, res) => {
     }
 
     else if (req.method === "GET" && req.url === "/search") {
-        fs.readFile("search.html", (err, data) => {
+        fs.readFile(path.join(frontendPath, "search.html"), (err, data) => {
             if (err) {
                 res.writeHead(500);
                 return res.end("Error loading search page");
@@ -283,7 +285,7 @@ const server = http.createServer((req, res) => {
 
     else if (req.method === "GET" && req.url === "/style.css") {
 
-        fs.readFile(path.join(__dirname, "style.css"), (err, data) => {
+        fs.readFile(path.join(frontendPath, "style.css"), (err, data) => {
 
             if (err) {
                 res.writeHead(404);
@@ -298,7 +300,7 @@ const server = http.createServer((req, res) => {
 
     }
     else if (req.method === "GET" && req.url === "/about") {
-        fs.readFile("about.html", (err, data) => {
+        fs.readFile(path.join(frontendPath, "about.html"), (err, data) => {
             if (err) {
                 res.writeHead(500);
                 return res.end("Error loading about page");
@@ -329,7 +331,7 @@ const server = http.createServer((req, res) => {
 
     }
     else if (req.method === "GET" && req.url === "/favicon-96x96.png") {
-        fs.readFile("favicon-96x96.png", (err, data) => {
+        fs.readFile(path.join(frontendPath, "favicon-96x96.png"), (err, data) => {
             if (err) {
                 res.writeHead(404);
                 return res.end("Favicon not found");
