@@ -61,7 +61,7 @@ const server = http.createServer((req, res) => {
                 jsonArray = JSON.parse(fileData);
             }
 
-            // Check if an entry with the same email already exists
+        
             const existingEntry = jsonArray.find(item => item.email === newEntry.email);
             if (existingEntry) {
                 res.writeHead(400, { "Content-Type": "text/html" });
