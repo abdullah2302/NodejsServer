@@ -2,6 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const querystring = require("querystring");
+const url = require("url");
 const os = require("os");
 
 const logFilePath = path.join(__dirname, "log.log");
@@ -61,7 +62,7 @@ const server = http.createServer((req, res) => {
                 jsonArray = JSON.parse(fileData);
             }
 
-        
+
             const existingEntry = jsonArray.find(item => item.email === newEntry.email);
             if (existingEntry) {
                 res.writeHead(400, { "Content-Type": "text/html" });
@@ -180,57 +181,6 @@ const server = http.createServer((req, res) => {
         }
         );
     }
-     else if (req.method === "GET" && req.url === "/search") {
-        fs.readFile("search.html", (err, data) => {
-            if (err) {
-                res.writeHead(500);
-                return res.end("Error loading search page");
-            }
-
-            res.writeHead(200, {
-                "Content-Type": "text/html"
-            });
-            res.end(data);
-        });
-    }
-
-    else if (req.method === "POST" && req.url === "/search-item") {
-        let body = "";
-
-        req.on("data", chunk => {
-            body += chunk;
-        });
-
-        req.on("end", () => {
-            const formData = querystring.parse(body);
-            const targetEmail = formData.email;
-
-            let jsonArray = [];
-
-            if (fs.existsSync("data.json")) {
-                const fileData = fs.readFileSync("data.json", "utf8").trim();
-
-                if (fileData.length > 0) {
-                    jsonArray = JSON.parse(fileData);
-                }
-            }
-
-            const foundItem = jsonArray.find(item => item.email === targetEmail);
-
-            if (!foundItem) {
-                res.writeHead(404, { "Content-Type": "text/html" });
-                return res.end(`<h2>Error: User with email "${targetEmail}" not found!</h2><a href="/search">Go Back</a>`);
-            }
-
-            res.writeHead(200, {
-                "Content-Type": "text/html"
-            });
-
-            res.end(`<h2>Found User: ${foundItem.name}</h2><p>Email: ${foundItem.email}</p><p>Age: ${foundItem.age}</p><p>Gender: ${foundItem.gender}</p><p>Country: ${foundItem.country}</p><p>City: ${foundItem.city}</p><a href="/">Go Back</a>`);
-
-        });
-
-    }
 
     else if (req.method === "POST" && req.url === "/edit-item") {
         let body = "";
@@ -242,7 +192,7 @@ const server = http.createServer((req, res) => {
         req.on("end", () => {
             const formData = querystring.parse(body);
             const targetEmail = formData.email;
-           const newEntry = {
+            const newEntry = {
                 name: formData.name,
                 age: formData.age,
                 gender: formData.gender,
@@ -280,6 +230,56 @@ const server = http.createServer((req, res) => {
         });
 
     }
+
+    else if (req.method === "GET" && req.url === "/search") {
+        fs.readFile("search.html", (err, data) => {
+            if (err) {
+                res.writeHead(500);
+                return res.end("Error loading search page");
+            }
+
+            res.writeHead(200, {
+                "Content-Type": "text/html"
+            });
+            res.end(data);
+        });
+    }
+
+    else if (req.method === "GET" && req.url.startsWith("/search-item")) {
+
+        // 2. Parse the query parameters from the URL
+        const parsedUrl = url.parse(req.url, true);
+        const targetEmail = parsedUrl.query.email;
+
+        let jsonArray = [];
+        if (fs.existsSync("data.json")) {
+            const fileData = fs.readFileSync("data.json", "utf8").trim();
+            if (fileData.length > 0) {
+                jsonArray = JSON.parse(fileData);
+            }
+        }
+
+        // 3. Search for the user in your database file
+        const foundItem = jsonArray.find(item => item.email === targetEmail);
+
+        if (!foundItem) {
+            res.writeHead(404, { "Content-Type": "text/html" });
+            return res.end(`<h2>Error: User with email "${targetEmail || ''}" not found!</h2><a href="/search">Go Back</a>`);
+        }
+
+        // 4. Return the found user details
+        res.writeHead(200, { "Content-Type": "text/html" });
+        return res.end(`
+        <h2>Found User: ${foundItem.name}</h2>
+        <p>Email: ${foundItem.email}</p>
+        <p>Age: ${foundItem.age}</p>
+        <p>Gender: ${foundItem.gender}</p>
+        <p>Country: ${foundItem.country}</p>
+        <p>City: ${foundItem.city}</p>
+        <a href="/">Go Back</a>
+    `);
+    }
+
 
     else if (req.method === "GET" && req.url === "/style.css") {
 
@@ -328,7 +328,7 @@ const server = http.createServer((req, res) => {
         });
 
     }
-    else if( req.method === "GET" && req.url === "/favicon-96x96.png") {
+    else if (req.method === "GET" && req.url === "/favicon-96x96.png") {
         fs.readFile("favicon-96x96.png", (err, data) => {
             if (err) {
                 res.writeHead(404);
@@ -340,7 +340,7 @@ const server = http.createServer((req, res) => {
             res.end(data);
         });
     }
-    else if(req.method === "GET" && req.url === "/favicon.ico") {
+    else if (req.method === "GET" && req.url === "/favicon.ico") {
         fs.readFile("favicon-96x96.png", (err, data) => {
             if (err) {
                 res.writeHead(404);
