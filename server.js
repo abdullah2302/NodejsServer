@@ -180,7 +180,57 @@ const server = http.createServer((req, res) => {
         }
         );
     }
+     else if (req.method === "GET" && req.url === "/search") {
+        fs.readFile("search.html", (err, data) => {
+            if (err) {
+                res.writeHead(500);
+                return res.end("Error loading search page");
+            }
 
+            res.writeHead(200, {
+                "Content-Type": "text/html"
+            });
+            res.end(data);
+        });
+    }
+
+    else if (req.method === "POST" && req.url === "/search-item") {
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk;
+        });
+
+        req.on("end", () => {
+            const formData = querystring.parse(body);
+            const targetEmail = formData.email;
+
+            let jsonArray = [];
+
+            if (fs.existsSync("data.json")) {
+                const fileData = fs.readFileSync("data.json", "utf8").trim();
+
+                if (fileData.length > 0) {
+                    jsonArray = JSON.parse(fileData);
+                }
+            }
+
+            const foundItem = jsonArray.find(item => item.email === targetEmail);
+
+            if (!foundItem) {
+                res.writeHead(404, { "Content-Type": "text/html" });
+                return res.end(`<h2>Error: User with email "${targetEmail}" not found!</h2><a href="/search">Go Back</a>`);
+            }
+
+            res.writeHead(200, {
+                "Content-Type": "text/html"
+            });
+
+            res.end(`<h2>Found User: ${foundItem.name}</h2><p>Email: ${foundItem.email}</p><p>Age: ${foundItem.age}</p><p>Gender: ${foundItem.gender}</p><p>Country: ${foundItem.country}</p><p>City: ${foundItem.city}</p><a href="/">Go Back</a>`);
+
+        });
+
+    }
 
     else if (req.method === "POST" && req.url === "/edit-item") {
         let body = "";

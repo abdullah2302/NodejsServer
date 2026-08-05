@@ -83,7 +83,8 @@ body {
 form,
 .about-container,
 .delete-container,
-.edit-container {
+.edit-container,
+.search-container{
   max-width: 480px;
   margin: 0 auto 1.5rem;
   background: var(--surface);
