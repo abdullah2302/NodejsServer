@@ -6,6 +6,8 @@ const url = require("url");
 const os = require("os");
 
 const logFilePath = path.join(__dirname, "log.log");
+const dataFilePath = path.join(__dirname, "data.json");
+console.log(dataFilePath);
 
 const frontendPath = path.join(__dirname, "..", "frontend");
 
@@ -30,68 +32,61 @@ const server = http.createServer((req, res) => {
     }
 
 
-    else if (req.method === "POST" && req.url === "/datasend") {
+   else if (req.method === "POST" && req.url === "/datasend") {
 
-        let body = "";
+    let body = "";
 
-        req.on("data", chunk => {
-            body += chunk;
-        });
+    req.on("data", chunk => {
+        body += chunk;
+    });
 
-        req.on("end", () => {
+    req.on("end", () => {
 
-            // Log the data entry
-            const logEntry = `${new Date().toISOString()} - ${os.hostname()}\n`;
-            fs.appendFileSync(logFilePath, logEntry);
+        // Log the data entry
+        const logEntry = `${new Date().toISOString()} - ${os.hostname()}\n`;
+        fs.appendFileSync(logFilePath, logEntry);
 
-            const formData = querystring.parse(body);
+        const formData = querystring.parse(body);
 
+        const newEntry = {
+            name: formData.name,
+            email: formData.email,
+            age: formData.age,
+            gender: formData.gender,
+            country: formData.country,
+            city: formData.city
+        };
 
-            const newEntry = {
-                name: formData.name,
-                email: formData.email,
-                age: formData.age,
-                gender: formData.gender,
-                country: formData.country,
-                city: formData.city
-            };
+        let jsonArray = [];
 
-            let jsonArray = [];
+        // Read existing data.json if it exists
+        if (fs.existsSync(dataFilePath)) {
+            const fileData = fs.readFileSync(dataFilePath, "utf8").trim();
 
-            // Read the existing JSON file if it exists
-            if (fs.existsSync("data.json")) {
-                const fileData = fs.readFileSync("data.json", "utf8");
+            if (fileData.length > 0) {
                 jsonArray = JSON.parse(fileData);
             }
+        }
 
+        const existingEntry = jsonArray.find(item => item.email === newEntry.email);
 
-            const existingEntry = jsonArray.find(item => item.email === newEntry.email);
-            if (existingEntry) {
-                res.writeHead(400, { "Content-Type": "text/html" });
-                return res.end(`<h2>Error: User with email "${newEntry.email}" already exists!</h2><a href="/">Go Back</a>`);
-            }
+        if (existingEntry) {
+            res.writeHead(400, { "Content-Type": "text/html" });
+            return res.end(`<h2>Error: User with email "${newEntry.email}" already exists!</h2><a href="/">Go Back</a>`);
+        }
 
-            //    if (fs.existsSync("data.json")) {
-            //         const fileData = fs.readFileSync("data.json", "utf8").trim();
+        jsonArray.push(newEntry);
 
-            //         if (fileData.length > 0) {
-            //             jsonArray = JSON.parse(fileData);
-            //         }
-            //     }
+        // This creates data.json in the backend folder if it doesn't exist
+        fs.writeFileSync(dataFilePath, JSON.stringify(jsonArray, null, 2));
 
-            jsonArray.push(newEntry);
-
-
-            fs.writeFileSync("data.json", JSON.stringify(jsonArray, null, 6));
-
-            res.writeHead(200, {
-                "Content-Type": "text/html"
-            });
-
-            res.end("<h2>Data Saved Successfully! <a href='/'>Go Back</a></h2>");
+        res.writeHead(200, {
+            "Content-Type": "text/html"
         });
 
-    }
+        res.end("<h2>Data Saved Successfully! <a href='/'>Go Back</a></h2>");
+    });
+}
     else if (req.method === "GET" && req.url === "/fetch") {
         const filePath = path.join(__dirname, "data.json");
         fs.readFile(filePath, "utf8", (err, data) => {
@@ -141,8 +136,8 @@ const server = http.createServer((req, res) => {
             let jsonArray = [];
 
 
-            if (fs.existsSync("data.json")) {
-                const fileData = fs.readFileSync("data.json", "utf8").trim();
+            if (fs.existsSync(dataFilePath)) {
+                const fileData = fs.readFileSync(dataFilePath, "utf8").trim();
                 if (fileData.length > 0) {
                     jsonArray = JSON.parse(fileData);
                 }
@@ -158,7 +153,7 @@ const server = http.createServer((req, res) => {
             }
 
             // Overwrite database with updated array
-            fs.writeFileSync("data.json", JSON.stringify(updatedArray, null, 2));
+            fs.writeFileSync(dataFilePath, JSON.stringify(updatedArray, null, 2));
 
             res.writeHead(200, {
                 "Content-Type": "text/html"
@@ -204,8 +199,8 @@ const server = http.createServer((req, res) => {
 
             let jsonArray = [];
 
-            if (fs.existsSync("data.json")) {
-                const fileData = fs.readFileSync("data.json", "utf8").trim();
+            if (fs.existsSync(dataFilePath)) {
+                const fileData = fs.readFileSync(dataFilePath, "utf8").trim();
 
                 if (fileData.length > 0) {
                     jsonArray = JSON.parse(fileData);
@@ -254,8 +249,8 @@ const server = http.createServer((req, res) => {
         const targetEmail = parsedUrl.query.email;
 
         let jsonArray = [];
-        if (fs.existsSync("data.json")) {
-            const fileData = fs.readFileSync("data.json", "utf8").trim();
+        if (fs.existsSync(dataFilePath)) {
+            const fileData = fs.readFileSync(dataFilePath, "utf8").trim();
             if (fileData.length > 0) {
                 jsonArray = JSON.parse(fileData);
             }
