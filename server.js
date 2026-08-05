@@ -217,6 +217,10 @@ const server = http.createServer((req, res) => {
             }
 
             jsonArray[entryIndex].name = newName;
+            jsonArray[entryIndex].age = newAge;
+            jsonArray[entryIndex].gender = newGender;
+            jsonArray[entryIndex].country = newCountry;
+            jsonArray[entryIndex].city = newCity;
 
             fs.writeFileSync("data.json", JSON.stringify(jsonArray, null, 2));
 
