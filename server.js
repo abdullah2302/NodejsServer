@@ -192,11 +192,13 @@ const server = http.createServer((req, res) => {
         req.on("end", () => {
             const formData = querystring.parse(body);
             const targetEmail = formData.email;
-            const newName = formData.name;
-            const newAge = formData.age;
-            const newGender = formData.gender;
-            const newCountry = formData.country;
-            const newCity = formData.city;
+           const newEntry = {
+                name: formData.name,
+                age: formData.age,
+                gender: formData.gender,
+                country: formData.country,
+                city: formData.city
+            };
 
             let jsonArray = [];
 
@@ -216,12 +218,7 @@ const server = http.createServer((req, res) => {
                 return res.end(`<h2>Error: User with email "${targetEmail}" does not exist!</h2><a href="/edit">Go Back</a>`);
             }
 
-            jsonArray[entryIndex].name = newName;
-            jsonArray[entryIndex].age = newAge;
-            jsonArray[entryIndex].gender = newGender;
-            jsonArray[entryIndex].country = newCountry;
-            jsonArray[entryIndex].city = newCity;
-
+            jsonArray[entryIndex] = { ...jsonArray[entryIndex], ...newEntry };
             fs.writeFileSync("data.json", JSON.stringify(jsonArray, null, 2));
 
             res.writeHead(200, {
