@@ -215,7 +215,7 @@ const server = http.createServer((req, res) => {
             }
 
             jsonArray[entryIndex] = { ...jsonArray[entryIndex], ...newEntry };
-            fs.writeFileSync("data.json", JSON.stringify(jsonArray, null, 2));
+            fs.writeFileSync(dataFilePath, JSON.stringify(jsonArray, null, 2));
 
             res.writeHead(200, {
                 "Content-Type": "text/html"
