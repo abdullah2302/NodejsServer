@@ -298,3 +298,149 @@ button:focus-visible {
     border-bottom: 1px solid var(--border);
   }
 }
+
+/* ============================================= */
+/*  Message pages (success / error / user-found)  */
+/*  Used by: datasend-success, datasend-error,     */
+/*  delete-success, delete-error, edit-success,     */
+/*  edit-error, search-found, search-notfound       */
+/* ============================================= */
+
+.message-container {
+  max-width: 480px;
+  margin: 0 auto 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.75rem 1.75rem 2rem;
+  text-align: center;
+}
+
+.message-container.success {
+  border-left-color: var(--accent);
+}
+
+.message-container.error {
+  border-left-color: var(--danger);
+}
+
+.message-container h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.message-container.success h2 {
+  color: var(--accent);
+}
+
+.message-container.error h2 {
+  color: var(--danger);
+}
+
+.message-container .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  font-size: 1.3rem;
+}
+
+.message-container.success .icon {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.message-container.error .icon {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.message-container p {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0 0 1rem;
+  word-break: break-word;
+}
+
+.message-container a {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.65rem 1.5rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+
+.message-container a:hover {
+  background: var(--accent-dark);
+}
+
+.message-container a:active {
+  transform: translateY(1px);
+}
+
+.message-container.error a {
+  background: var(--danger);
+}
+
+.message-container.error a:hover {
+  background: var(--danger-dark);
+}
+
+/* Found-user details card reuses the container spacing but lists data */
+.message-container.details {
+  text-align: left;
+  border-left-color: var(--accent);
+}
+
+.message-container.details h2 {
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.message-container.details dl {
+  margin: 0 0 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.message-container.details dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.message-container.details dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.message-container.details dd {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ink);
+  text-align: right;
+  word-break: break-word;
+}
+
+.message-container.details a {
+  display: block;
+  text-align: center;
+}

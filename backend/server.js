@@ -7,9 +7,11 @@ const os = require("os");
 
 const logFilePath = path.join(__dirname, "log.log");
 const dataFilePath = path.join(__dirname, "data.json");
-console.log(dataFilePath);
-
 const frontendPath = path.join(__dirname, "..", "frontend");
+console.log(frontendPath);
+// console.log(dataFilePath);
+
+
 
 const server = http.createServer((req, res) => {
 
@@ -72,9 +74,14 @@ const server = http.createServer((req, res) => {
 
         if (existingEntry) {
             res.writeHead(400, { "Content-Type": "text/html" });
-            return res.end(`<h2>Error: User with email "${newEntry.email}" already exists!</h2><a href="/">Go Back</a>`);
+            //read the datasend-error.html file and replace the placeholder with the actual email
+            const errorPage =  fs.readFileSync(path.join(frontendPath, "datasend-error.html"), "utf8");
+            const errorPageWithEmail = errorPage.replace("{{EMAIL}}", newEntry.email);
+            return res.end(errorPageWithEmail);
         }
 
+
+       
         jsonArray.push(newEntry);
 
         // This creates data.json in the backend folder if it doesn't exist
@@ -84,7 +91,14 @@ const server = http.createServer((req, res) => {
             "Content-Type": "text/html"
         });
 
-        res.end("<h2>Data Saved Successfully! <a href='/'>Go Back</a></h2>");
+
+
+
+
+
+    //read the datasend-success.html file and send it as a response
+    const successPage = fs.readFileSync(path.join(frontendPath, "datasend-success.html"), "utf8");
+    res.end(successPage);
     });
 }
     else if (req.method === "GET" && req.url === "/fetch") {
@@ -148,7 +162,9 @@ const server = http.createServer((req, res) => {
 
             if (jsonArray.length === updatedArray.length) {
                 res.writeHead(400, { "Content-Type": "text/html" });
-                return res.end(`<h2>Error: User with email "${targetEmail}" does not exist or has already been deleted!</h2><a href="/delete">Go Back</a>`);
+                const errorPage = fs.readFileSync(path.join(frontendPath, "delete-error.html"), "utf8");
+                return res.end(errorPage.replace("{{EMAIL}}", targetEmail));
+
             }
 
             // Overwrite database with updated array
@@ -157,8 +173,9 @@ const server = http.createServer((req, res) => {
             res.writeHead(200, {
                 "Content-Type": "text/html"
             });
-
-            res.end(`<h2>Successfully removed entries for: ${targetEmail}</h2><a href="/">Go Back</a>`);
+               
+            const successPage = fs.readFileSync(path.join(frontendPath, "delete-success.html"), "utf8");
+            res.end(successPage.replace("{{EMAIL}}", targetEmail));
         });
     }
 
@@ -211,7 +228,8 @@ const server = http.createServer((req, res) => {
 
             if (entryIndex === -1) {
                 res.writeHead(400, { "Content-Type": "text/html" });
-                return res.end(`<h2>Error: User with email "${targetEmail}" does not exist!</h2><a href="/edit">Go Back</a>`);
+                const errorPage = fs.readFileSync(path.join(frontendPath, "edit-error.html"), "utf8");
+                return res.end(errorPage.replace("{{EMAIL}}", targetEmail));
             }
 
             jsonArray[entryIndex] = { ...jsonArray[entryIndex], ...newEntry };
@@ -221,7 +239,8 @@ const server = http.createServer((req, res) => {
                 "Content-Type": "text/html"
             });
 
-            res.end(`<h2>Successfully updated entry for: ${targetEmail}</h2><a href="/">Go Back</a>`);
+            const successPage = fs.readFileSync(path.join(frontendPath, "edit-success.html"), "utf8");
+            res.end(successPage.replace("{{EMAIL}}", targetEmail));
 
         });
 
@@ -260,20 +279,20 @@ const server = http.createServer((req, res) => {
 
         if (!foundItem) {
             res.writeHead(404, { "Content-Type": "text/html" });
-            return res.end(`<h2>Error: User with email "${targetEmail || ''}" not found!</h2><a href="/search">Go Back</a>`);
+            const errorPage = fs.readFileSync(path.join(frontendPath, "search-notfound.html"), "utf8");
+            return res.end(errorPage.replace("{{EMAIL}}", targetEmail));
         }
 
         // 4. Return the found user details
         res.writeHead(200, { "Content-Type": "text/html" });
-        return res.end(`
-        <h2>Found User: ${foundItem.name}</h2>
-        <p>Email: ${foundItem.email}</p>
-        <p>Age: ${foundItem.age}</p>
-        <p>Gender: ${foundItem.gender}</p>
-        <p>Country: ${foundItem.country}</p>
-        <p>City: ${foundItem.city}</p>
-        <a href="/">Go Back</a>
-    `);
+        const resultPage = fs.readFileSync(path.join(frontendPath, "search-found.html"), "utf8");
+        const resultPageWithDetails = resultPage.replace("{{NAME}}", foundItem.name)
+            .replace("{{EMAIL}}", foundItem.email)
+            .replace("{{AGE}}", foundItem.age)
+            .replace("{{GENDER}}", foundItem.gender)
+            .replace("{{COUNTRY}}", foundItem.country)
+            .replace("{{CITY}}", foundItem.city);
+        res.end(resultPageWithDetails);
     }
 
 
