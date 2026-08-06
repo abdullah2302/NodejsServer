@@ -88,8 +88,7 @@ const server = http.createServer((req, res) => {
     });
 }
     else if (req.method === "GET" && req.url === "/fetch") {
-        const filePath = path.join(__dirname, "data.json");
-        fs.readFile(filePath, "utf8", (err, data) => {
+        fs.readFile(dataFilePath, "utf8", (err, data) => {
             if (err) {
                 res.writeHead(500);
                 return res.end("Error reading data");
@@ -310,7 +309,7 @@ const server = http.createServer((req, res) => {
     }
     else if (req.method === "GET" && req.url === "/script.js") {
 
-        fs.readFile("script.js", "utf8", (err, data) => {
+        fs.readFile(path.join(frontendPath, "script.js"), "utf8", (err, data) => {
 
             if (err) {
                 res.writeHead(404);
